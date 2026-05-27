@@ -1,4 +1,5 @@
 "use client";
+import CalendarView from "@/components/CalendarView";
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
 import { categories } from "@/lib/categories";
@@ -16,6 +17,7 @@ export default function Home() {
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
+  const [view, setView] = useState<"agenda" | "calendar">("agenda");
 
   useEffect(() => {
     const stored = getActivities();
@@ -76,6 +78,30 @@ export default function Home() {
           </button>
         </div>
 
+{/* View Toggle */}
+<div className="flex gap-2 mb-4 bg-gray-100 p-1 rounded-xl w-fit">
+  <button
+    onClick={() => setView("agenda")}
+    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+      view === "agenda"
+        ? "bg-white text-gray-800 shadow-sm"
+        : "text-gray-500 hover:text-gray-700"
+    }`}
+  >
+    📋 Agenda
+  </button>
+  <button
+    onClick={() => setView("calendar")}
+    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+      view === "calendar"
+        ? "bg-white text-gray-800 shadow-sm"
+        : "text-gray-500 hover:text-gray-700"
+    }`}
+  >
+    📅 Kalender
+  </button>
+</div>
+
         {/* Filter */}
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
           <button
@@ -103,8 +129,14 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Agenda */}
-        {Object.keys(grouped).length === 0 ? (
+        
+        {/* Agenda of Kalender */}
+        {view === "calendar" ? (
+          <CalendarView
+            activities={filtered}
+            onSelectActivity={setSelectedActivity}
+          />
+        ) : Object.keys(grouped).length === 0 ? (
           <div className="text-center py-12 text-gray-400">
             <p className="text-4xl mb-2">📭</p>
             <p>Geen activiteiten gevonden</p>
