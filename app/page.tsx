@@ -11,6 +11,7 @@ import ActivityCard from "@/components/ActivityCard";
 import ActivityModal from "@/components/ActivityModal";
 import ActivityForm from "@/components/ActivityForm";
 import Stats from "@/components/Stats";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -19,6 +20,7 @@ export default function Home() {
   const [showForm, setShowForm] = useState(false);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
   const [view, setView] = useState<"agenda" | "calendar">("agenda");
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const stored = getActivities();
@@ -62,7 +64,7 @@ export default function Home() {
     }, {});
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="max-w-lg mx-auto px-4 py-8">
 
         {/* Header */}
@@ -71,12 +73,20 @@ export default function Home() {
             <h1 className="text-2xl font-bold text-gray-800">🗓️ Hobby Agenda</h1>
             <p className="text-gray-500 text-sm">Plan je hobby activiteiten</p>
           </div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-xl font-medium hover:bg-blue-600 transition-colors"
-          >
-            + Toevoegen
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-2 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              {theme === "dark" ? "☀️" : "🌙"}
+            </button>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-xl font-medium hover:bg-blue-600 transition-colors"
+            >
+              + Toevoegen
+            </button>
+          </div>
         </div>
 
 {/* View Toggle */}
