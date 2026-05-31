@@ -10,6 +10,7 @@ import { nl } from "date-fns/locale";
 import ActivityCard from "@/components/ActivityCard";
 import ActivityModal from "@/components/ActivityModal";
 import ActivityForm from "@/components/ActivityForm";
+import Stats from "@/components/Stats";
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -128,6 +129,7 @@ export default function Home() {
             </button>
           ))}
         </div>
+        <Stats activities={activities} />
 
         
         {/* Agenda of Kalender */}
